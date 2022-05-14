@@ -1,0 +1,95 @@
+---
+title: "Brackets"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(tidyverse)
+```
+
+## Simple example
+
+```{r}
+x <- list(c(1,2,3),c(4,5,6))
+print(x)
+```
+
+X is a list with two elements: 
+
+1. A vector of numbers with values 1, 2, and 3  
+2. A vector of numbers with values 4, 5, and 6
+
+```{r}
+single.1 <- x[1]
+single.2 <- x[2]
+double.1 <- x[[1]]
+double.2 <- x[[2]]
+
+print(single.1)
+print(single.2)
+
+print(double.1)
+print(double.2)
+```
+
+The major difference between the single bracket and double bracket is the type of object they return; in particular, when the object you are indexing (x in this case) is a list.
+
+The single bracket will return a list (of size one) for the corresponding element. A double bracket will return a vector of the corresponding element. Note that single.1's output has an additional [[1]] above it, indicating that it is a list, while double.1's output does not have this.
+
+Which bracket you use depends on what object type you need. For example, the mean() function can only take in a vector of numbers, rather than a list. 
+
+```{r}
+mean(single.1)
+mean(double.1)
+```
+
+Furthermore, the object type also changes how indexing works. For example, if you want to get the first two observations (values 1 and 2), it is much easier to do so using double:
+
+```{r}
+single.1[[1]][1]
+single.1[[1]][2]
+
+double.1[1]
+double.1[2]
+```
+
+
+## String processing from class
+
+Looking at the string-processing code from class, we have:
+
+```{r}
+filename <- system.file("extdata/murders.csv", package = "dslabs")
+lines    <- readLines(filename)
+x <- str_split(lines, ",")[1:3]
+x
+```
+
+As we can see, the object we are indexing (x) is a list. Since we want the actual values of the first index, rather than a list (of size 1) containing the values, we use the double bracket:
+
+```{r}
+col_names <- x[[1]]
+col_names
+```
+
+Compared to a list (of size 1) containing the values:
+
+```{r}
+x[1]
+```
+
+However, when we are subsetting x to remove the first index (the -1 operator), we must use the single index since we are operating on the list level. 
+
+```{r}
+x[-1]
+```
+
+
+
+
+
+
+
